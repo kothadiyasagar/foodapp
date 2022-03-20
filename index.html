@@ -8,35 +8,29 @@
     <link rel="stylesheet" href="/css/page.css">
 </head>
 <body>
-    <div id="head">
-    </div>
-    <div  style="margin: auto;  margin-top: -40px; width: 50px;"><input id="inp" type="text" placeholder="search">
-        
-    </div>
-     <input type="text" id="search">
-      <button  onclick="search1()"></button>
+    <div id="header"></div> 
+    <div id="fooditms"></div>
 </body>
 </html>
 <script type="module">
     import navbar from './data/navbar.js'
+    import call from './data/fech.js' ;
     console.log("navbar:",navbar)
     let header=document.getElementById("header")
-    head.innerHTML=navbar()
-</script>
+    header.innerHTML=navbar()
+    document.querySelector("#search").addEventListener("click",clickon);
+    async function clickon(){
+        try {
+            let Name=document.querySelector("#Name").value;
+            //  document.querySelector("#Name").addEventListener("input",check);
+            let url=`https://www.themealdb.com/api/json/v1/1/search.php?s=${Name}`
+            let response =await call(url);
+            console.log(response)
+          display(response.meals)
+        } catch (er) {
+            console.log(er)
+        }
+    }
+      
 
-<script>
-       function search1(){
-    // console.log("a")
-    try {
-        let inp = document.getElementById("search").value;
-        let res =await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${inp}`)
-   
-    let data = await res.json()
-
-    // appendvideos(videos)
-     console.log("data:",data);
-} catch(error) {
-    console.log("erroe:",error)
-}
-};
 </script>
