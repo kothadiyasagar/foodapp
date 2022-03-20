@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/page.css">
+</head>
+<body>
+    <div id="head">
+    </div>
+    <div  style="margin: auto;  margin-top: -40px; width: 50px;"><input id="inp" type="text" placeholder="search">
+        
+    </div>
+     <input type="text" id="search">
+      <button  onclick="search1()"></button>
+</body>
+</html>
+<script type="module">
+    import navbar from './data/navbar.js'
+    console.log("navbar:",navbar)
+    let header=document.getElementById("header")
+    head.innerHTML=navbar()
+</script>
+
+<script>
+       function search1(){
+    // console.log("a")
+    try {
+        let inp = document.getElementById("search").value;
+        let res =await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${inp}`)
+   
+    let data = await res.json()
+
+    // appendvideos(videos)
+     console.log("data:",data);
+} catch(error) {
+    console.log("erroe:",error)
+}
+};
+</script>
