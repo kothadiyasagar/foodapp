@@ -6,14 +6,98 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/css/page.css">
+    <style>
+        #display {
+            margin: auto;
+            margin-top:100px;
+            width: 80%;
+            display: grid;
+            grid-template-columns: repeat(5, 20%);
+            grid-gap: 20px;
+        }
+    
+      
+    
+        .imgthum {
+            width: 100%;
+            height: 70%;
+        }
+    
+        .outer:hover{
+            background-color: rgb(146, 143, 143);
+            color: white;
+        }
+    
+        .outer{
+            cursor: pointer;
+        }
+    </style>
+    
 </head>
 <body>
     <div id="header"></div>
+    <div id="display"></div>
 </body>
 </html>
 <script type="module">
     import navbar from './data/navbar.js'
+    import call from './data/fech.js'
     console.log("navbar:",navbar)
     let header=document.getElementById("header")
     header.innerHTML=navbar()
+    let url = "https://www.themealdb.com/api/json/v1/1/filter.php?a=Canadian"
+
+    let promis = call(url);
+
+    promis.then((res) => {
+        display(res.meals);
+    })
+    promis.catch((er) => {
+        console.log(er, "inmy")
+    })
+
+    let box = document.querySelector("#display")
+    function display(data) {
+         console.log(data)
+        data.forEach(({ idMeal, strMeal, strMealThumb }) => {
+            
+            let outer = document.createElement("div")
+            outer.className="outer"
+            outer.addEventListener("click",()=>{
+                showmore(idMeal);
+            })
+            let img = document.createElement("img");
+            img.src = strMealThumb
+            img.className="imgthum"
+            let des = document.createElement("div");
+           
+            let Name = document.createElement("h2");
+            Name.innerText = strMeal
+           
+
+
+
+            box.append(outer);
+
+            outer.append(img, des);
+
+            des.append(Name);
+
+
+        })
+    }
+
+    let arr=[];
+
+    function showmore(d){
+         
+        arr.push(d);
+
+        localStorage.setItem("id",JSON.stringify(arr));
+
+        window.location.href="seen.html";
+         
+    }
+
+
 </script>

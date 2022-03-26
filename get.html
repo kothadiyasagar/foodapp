@@ -9,11 +9,70 @@
 </head>
 <body>
     <div id="header"></div> 
+    <div id="di"></div>
 </body>
 </html>
 <script type="module">
     import navbar from './data/navbar.js'
+    import call from './data/fech.js'
     console.log("navbar:",navbar)
     let header=document.getElementById("header")
     header.innerHTML=navbar()
+    
+    let url = "https://www.themealdb.com/api/json/v1/1/filter.php?a=Indian"
+
+    let promis = call(url);
+
+    promis.then((res) => {
+        console.log(res.meals)
+        display(res.meals);
+    })
+    promis.catch((er) => {
+        console.log(er, "er")
+    })
+    let box = document.querySelector("#di")
+    function display(data) {
+         console.log(data)
+        data.forEach(({ idMeal, strMeal, strMealThumb }) => {
+            
+            let outer = document.createElement("div")
+            outer.className="outer"
+            outer.addEventListener("click",()=>{
+                showmore(idMeal);
+            })
+            let img = document.createElement("img");
+            img.src = strMealThumb
+            img.className="imgthum"
+            let des = document.createElement("div");
+           
+            let Name = document.createElement("h2");
+            Name.innerText = strMeal
+           
+
+
+
+            box.append(outer);
+
+            outer.append(img, des);
+
+            des.append(Name);
+
+
+        })
+    }
+       
+    let arr=[];
+    console.log(arr)
+    function showmore(d){
+         
+        arr.push(d);
+        console.log(arr)
+
+        localStorage.setItem("id",JSON.stringify(arr));
+        console.log(arr)
+
+         window.location.href="seen.html";
+         
+    }
+
 </script>
