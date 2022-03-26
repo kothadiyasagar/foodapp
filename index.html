@@ -10,6 +10,7 @@
 <body>
     <div id="header"></div> 
     <div id="fooditms"></div>
+    <div id="cont"></div>
 </body>
 </html>
 <script type="module">
@@ -18,19 +19,95 @@
     console.log("navbar:",navbar)
     let header=document.getElementById("header")
     header.innerHTML=navbar()
-    document.querySelector("#search").addEventListener("click",clickon);
-    async function clickon(){
+    document.querySelector("#Name").addEventListener("input", ()=>{
+        check()
+    });
+    document.querySelector("#search").addEventListener("click",()=>{
+        clickon()
+    });
+   
+       const clickon = async()=>{
+         console.log("e")
+        
+          var Name=document.querySelector("#Name").value;
         try {
-            let Name=document.querySelector("#Name").value;
-            //  document.querySelector("#Name").addEventListener("input",check);
+            const Name=document.querySelector("#Name").value;
+            // document.querySelector("#Name").addEventListener("input",check);
             let url=`https://www.themealdb.com/api/json/v1/1/search.php?s=${Name}`
             let response =await call(url);
             console.log(response)
-          display(response.meals)
+            display(response.meals)
         } catch (er) {
             console.log(er)
         }
+    
+    
     }
-      
+
+   
+    let time_id;
+    const check =() => { 
+
+        debounce(clickon,2000)
+    }
+
+     const debounce=(func,delay)=>{
+          if(time_id){
+              clearTimeout(time_id)
+          }
+         time_id=setTimeout(()=>{
+             func();
+         },delay) 
+     }
+     let out=document.querySelector("#fooditms");
+     const display=(data)=> {
+         out.innerHTML="";
+         data.map(elem => {
+           let h1=  document.createElement("h3")
+            h1.innerText=elem.strMeal;
+             h1.style.cursor="pointer"
+             h1.style.color="white"
+             h1.addEventListener("click",()=>{
+            showOn(elem);
+        })
+             out.append(h1)
+        
+         })
+             
+     }
+     async function showOn(elem){
+   console.log(elem)
+  show(elem)
+   
+}
+
+
+let box=document.querySelector("#cont") 
+function show({strMealThumb,strMeal,strInstructions,strIngredient1}){
+    box.innerHTML=null;
+    out.innerHTML=null;
+   let img=document.createElement("img");
+   img.src=strMealThumb;
+   img.className="imgbox"
+   let des=document.createElement("div");
+   des.className="des"
+   let title=document.createElement("h2");
+   title.innerText=strMeal;
+   title.style.color="red";
+   let heading=document.createElement("h1")
+   heading.textContent="Instruction"
+   let instruction=document.createElement("h3");
+   instruction.innerText=strInstructions;
+   let heading1=document.createElement("h1")
+   heading1.textContent="Ingredient"
+   let mainIngredient=document.createElement("h4");
+   mainIngredient.innerText=strIngredient1;
+   
+des.append(title,heading,instruction,heading1,mainIngredient);
+   box.append(img,des);
+
+}
+    
+    
 
 </script>

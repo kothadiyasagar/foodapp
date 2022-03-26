@@ -1,7 +1,7 @@
 const navbar = () => {
     return `<div id="navbar">
     <h3><a href="index.html">Home</a></h3>
-    <input type="text" id="Name"  placeholder="Debounceing...">
+    <input type="text" id="Name" placeholder="Debounceing...">
     <button id="search">Search</button>
 
     <div id="options">
